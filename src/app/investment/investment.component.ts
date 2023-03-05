@@ -2,6 +2,13 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'investment',
-  template: ` <h1>Investment Works</h1> `,
+  templateUrl: './investment.component.html',
+  styles: [``],
 })
-export class InvestmentComponent {}
+export class InvestmentComponent {
+  constructor() {}
+
+  saveFormToDb(formData: any) {
+    console.log('THE FROM DATA : ', formData);
+  }
+}

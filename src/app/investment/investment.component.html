@@ -1,0 +1,38 @@
+<div class="row gx-0">
+  <div class="col-12">
+    <h1 class="fw-bold d-flex">
+      <span class="me-auto text-decoration-underline">Investments</span>
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#addInvestmentModal"
+        title="Add a new investment"
+      >
+        Add New Investment
+      </button>
+    </h1>
+    <h3>Summary</h3>
+  </div>
+  <div class="col-sm-12 col-md-3">
+    <div class="card border-primary mb-3" style="max-width: 20rem">
+      <div class="card-body">
+        <h4 class="card-title">Total Investments</h4>
+        <p class="card-text fs-5">{{ 0 }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-3">
+    <div class="card border-primary mb-3" style="max-width: 20rem">
+      <div class="card-body">
+        <h4 class="card-title">Total Amount</h4>
+        <p class="card-text fs-5" style="letter-spacing: 0.2rem">
+          {{ 527273 | currency : "INR" }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Investment Modal -->
+<add-investment (saveForm)="saveFormToDb($event)"></add-investment>

@@ -1,43 +1,26 @@
-<div class="container-fluid gx-0">
-  <div class="row gx-0">
-    <mat-toolbar class="px-0">
-      <button mat-button class="h-100" (click)="sidenav.toggle()">
-        <span
-          ><mat-icon role="img"
-            ><svg
-              focusable="false"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
-              ></path></svg></mat-icon
-        ></span>
-      </button>
-      <a class="main-header" routerLink="/overview">
-        <mat-icon class="mx-md-4 mx-sm-2"> local_atm</mat-icon>
-        Manage your Expenses</a
+<div class="container-md py-3">
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item me-auto" role="presentation">
+      <a
+        class="nav-link text-bg-dark bg-gradient"
+        routerLink="overview"
+        style="letter-spacing: 0.2rem"
+        >Track Your Expense</a
       >
-    </mat-toolbar>
-    <mat-sidenav-container>
-      <mat-sidenav opened mode="side" #sidenav>
-        <ng-container *ngFor="let navItem of sideNavConfig">
-          <a
-            mat-stroked-button
-            [routerLink]="[navItem.link]"
-            routerLinkActive="active"
-            class="w-100 my-2 fs-3 text-white"
-          >
-            <mat-icon class="large-mat-icon me-4">{{
-              navItem.matIcon
-            }}</mat-icon>
-            {{ navItem.text }}
-          </a>
-        </ng-container>
-      </mat-sidenav>
-      <mat-sidenav-content>
-        <router-outlet></router-outlet>
-      </mat-sidenav-content>
-    </mat-sidenav-container>
+    </li>
+    <li class="nav-item" role="presentation" *ngFor="let config of navConfig">
+      <a
+        class="nav-link"
+        data-bs-toggle="tab"
+        aria-selected="true"
+        role="tab"
+        routerLink="{{ config.link }}"
+        routerLinkActive="active"
+        >{{ config.text }}</a
+      >
+    </li>
+  </ul>
+  <div class="tab-content py-3">
+    <router-outlet></router-outlet>
   </div>
 </div>

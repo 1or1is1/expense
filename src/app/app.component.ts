@@ -1,46 +1,40 @@
-import { Component, Injectable } from '@angular/core';
+import { Component } from '@angular/core';
 
-interface SideNav {
+interface Navigation {
   text: string;
   link: string;
-  matIcon: string;
 }
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  sideNavConfig: SideNav[] = [];
+  navConfig: Navigation[] = [];
   constructor() {}
 
   ngOnInit() {
-    this.sideNavConfig = [
+    this.navConfig = [
       {
         text: 'Overview',
         link: 'overview',
-        matIcon: '360',
       },
       {
         text: 'Income',
         link: 'income',
-        matIcon: 'attach_money',
       },
       {
         text: 'Expenses',
         link: 'expenses',
-        matIcon: 'shopping_cart',
       },
       {
         text: 'Investments',
         link: 'investments',
-        matIcon: 'loyalty',
       },
       {
         text: 'Subscriptions',
         link: 'subscriptions',
-        matIcon: 'subscriptions',
       },
     ];
   }

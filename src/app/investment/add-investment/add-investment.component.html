@@ -1,0 +1,156 @@
+<div
+  class="modal fade"
+  id="addInvestmentModal"
+  tabindex="-1"
+  aria-labelledby="addInvestmentModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 fw-bold" id="addInvestmentLable">
+          Add Investment
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form class="row gy-3" [formGroup]="newInvestmentForm">
+          <div class="col-12 form-group">
+            <label for="investment-name" class="form-label mb-0">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="investment-name"
+              aria-describedby="Investment Name"
+              placeholder="Company or Symbol name"
+              formControlName="investmentName"
+              [ngClass]="
+                investmentName?.invalid && investmentName?.touched
+                  ? 'is-invalid'
+                  : ''
+              "
+            />
+            <div class="invalid-feedback">Please enter an Investment Name.</div>
+          </div>
+          <div class="col-12">
+            <div class="row gx-md-3">
+              <div class="col-md-6 col-sm-12 form-group">
+                <label for="stock-price" class="form-label mb-0"
+                  >Single Stock Price</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="stock-price"
+                  aria-describedby="Single Stock Price"
+                  placeholder="1000"
+                  formControlName="singleStockPrice"
+                  [ngClass]="
+                    singleStockPrice?.invalid && singleStockPrice?.touched
+                      ? 'is-invalid'
+                      : ''
+                  "
+                />
+                <div class="invalid-feedback">
+                  Please enter Stock Price.
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-12 form-group">
+                <label for="total-unit" class="form-label mb-0">Units</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="total-unit"
+                  aria-describedby="No Of units"
+                  placeholder="2"
+                  formControlName="noOfUnits"
+                  [ngClass]="
+                    noOfUnits?.invalid && noOfUnits?.touched ? 'is-invalid' : ''
+                  "
+                />
+                <div class="invalid-feedback">
+                  Please enter units bought.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="row gx-md-3">
+              <div class="col-md-6 col-sm-12 form-group">
+                <label for="bought-date" class="form-label mb-0"
+                  >Bought Date</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  id="bought-date"
+                  aria-describedby="Bought Date"
+                  placeholder="1000"
+                  formControlName="boughtDate"
+                  [ngClass]="
+                    boughtDate?.invalid && boughtDate?.touched
+                      ? 'is-invalid'
+                      : ''
+                  "
+                />
+                <div class="invalid-feedback">
+                  Please enter Bought Date.
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-12 form-group">
+                <label for="category" class="form-label mb-0">Category</label>
+                <select
+                  id="category"
+                  class="form-select"
+                  formControlName="category"
+                  [ngClass]="
+                    category?.invalid && category?.touched ? 'is-invalid' : ''
+                  "
+                >
+                  <option
+                    value="{{ investmentCategory.value }}"
+                    *ngFor="let investmentCategory of investmentCategories"
+                  >
+                    {{ investmentCategory.label }}
+                  </option>
+                </select>
+                <div class="invalid-feedback">
+                  Please enter a Investment Category.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 form-group">
+            <label for="investment-notes" class="form-label mb-0"
+              >Notes <span class="text-muted">(Optional)</span></label
+            >
+            <textarea
+              class="form-control"
+              id="investment-notes"
+              rows="3"
+              formControlName="notes"
+            ></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          #closeAddInvestmentModal
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" (click)="onSubmitForm()">
+          Submit Form
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
