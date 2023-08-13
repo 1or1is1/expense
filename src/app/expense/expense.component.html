@@ -1,0 +1,112 @@
+<div class="container py-2 py-md-4 my-4 my-md-5">
+  <header class="d-flex justify-content-between align-items-center">
+    <span class="fs-2 fw-bold me-auto">Expenses</span>
+    <span
+      ><a class="btn btn-primary" routerLink="addExpense">Add Expense</a></span
+    >
+  </header>
+  <hr />
+  <div class="row gap-3 gap-md-4 mt-3 mt-md-4">
+    <div class="col-12">
+      <h4>Summary</h4>
+    </div>
+    <div class="col-12 col-md-4 col-lg-3">
+      <div class="card shadow-sm bg-secondary">
+        <div class="card-body">
+          <h6 class="card-title text-uppercase">Total Expenses</h6>
+          <h2>3</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4 col-lg-3">
+      <div class="card shadow-sm bg-secondary">
+        <div class="card-body">
+          <h6 class="card-title text-uppercase">Total Amount</h6>
+          <h2>₹ 523.34</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row gap-3 gap-md-4 mt-3 mt-md-4">
+    <div class="col-12">
+      <div class="table-responsive table-container">
+        <table class="table table-bordered table-striped table-hover">
+          <thead>
+            <tr>
+              <th data-cell="name">Name</th>
+              <th data-cell="price">Price</th>
+              <th data-cell="spent date">Spent Date</th>
+              <th data-cell="category">Category</th>
+              <th data-cell="paid via">Paid Via</th>
+              <th data-cell="notes">Notes</th>
+              <th data-cell="actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr>
+              <td>Burger King</td>
+              <td>₹ 300</td>
+              <td>August 11, 2023</td>
+              <td>Food</td>
+              <td>UPI</td>
+              <td>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe,
+                laboriosam.
+              </td>
+              <td>
+                <button class="btn btn-outline-dark me-1 btn-sm" title="edit">
+                  <i class="ri-edit-line"></i>
+                </button>
+                <button class="btn btn-outline-danger btn-sm" title="delete">
+                  <i class="ri-delete-bin-line"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Burger King</td>
+              <td>₹ 300</td>
+              <td>August 11, 2023</td>
+              <td>Food</td>
+              <td>UPI</td>
+              <td>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe,
+                laboriosam.
+              </td>
+              <td>
+                <a
+                  class="btn btn-outline-dark me-1 btn-sm"
+                  title="edit"
+                  [routerLink]="['editExpense', 1]"
+                >
+                  <i class="ri-edit-line"></i>
+                </a>
+                <button class="btn btn-outline-danger btn-sm" title="delete">
+                  <i class="ri-delete-bin-line"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Burger King</td>
+              <td>₹ 300</td>
+              <td>August 11, 2023</td>
+              <td>Food</td>
+              <td>UPI</td>
+              <td>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe,
+                laboriosam.
+              </td>
+              <td>
+                <button class="btn btn-outline-dark me-1 btn-sm" title="edit">
+                  <i class="ri-edit-line"></i>
+                </button>
+                <button class="btn btn-outline-danger btn-sm" title="delete">
+                  <i class="ri-delete-bin-line"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

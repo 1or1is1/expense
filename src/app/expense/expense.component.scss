@@ -1,0 +1,31 @@
+.table-container {
+  overflow-x: auto;
+}
+
+th[data-cell="name"] {
+  min-width: 110px;
+}
+
+th[data-cell="price"] {
+  min-width: 75px;
+}
+
+th[data-cell="spent date"] {
+  min-width: 135px;
+}
+
+th[data-cell="category"] {
+  min-width: 90px;
+}
+
+th[data-cell="paid via"] {
+  min-width: 80px;
+}
+
+th[data-cell="notes"] {
+  min-width: 220px;
+}
+
+th[data-cell="actions"] {
+  min-width: 85px;
+}

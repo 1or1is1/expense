@@ -1,0 +1,107 @@
+<div class="container my-4 my-md-5">
+  <div class="row">
+    <div class="col-12 col-md-11 col-lg-9 mx-auto">
+      <div class="card shadow-sm border-dark">
+        <h2 class="card-header">
+          <ng-content select="[addUpdateHeading]"></ng-content>
+        </h2>
+        <div class="card-body">
+          <form>
+            <div class="row row-cols-2 row-gap-3">
+              <div class="col-12">
+                <label for="name" class="form-label">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  aria-describedby="Expense name"
+                  placeholder="Burger King - Burgers"
+                />
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="price" class="form-label">Price</label>
+                <div class="input-group">
+                  <span class="input-group-text" id="basic-addon1">₹</span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="price"
+                    aria-describedby="Total cost of Expense"
+                    placeholder="228.34"
+                  />
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="spent-date" class="form-label">Spent Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="spent-date"
+                  aria-describedby="Date of the transaction"
+                />
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="category" class="form-label">Category</label>
+                <select id="category" class="form-select">
+                  <optgroup label="Essentials">
+                    <option value="food" selected>Food</option>
+                    <option value="grocery">Grocery</option>
+                    <option value="medical">Medical</option>
+                  </optgroup>
+                  <optgroup label="Expenses">
+                    <option value="bills">Bills</option>
+                    <option value="education">Education</option>
+                    <option value="order">Online Order</option>
+                    <option value="rent">Rent</option>
+                  </optgroup>
+                  <optgroup label="Leisure">
+                    <option value="entertainment">Entertainment</option>
+                    <option value="shopping">Shopping</option>
+                    <option value="travel">Travel</option>
+                    <option value="sports">Sports</option>
+                  </optgroup>
+                  <optgroup label="Payments">
+                    <option value="emi">EMI</option>
+                    <option value="savings">Savings</option>
+                    <option value="debt">Debt</option>
+                    <option value="loan">Loan</option>
+                  </optgroup>
+                  <option value="other">Others</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="paid" class="form-label">Paid Via</label>
+                <select id="paid" class="form-select">
+                  <option value="cash">Cash</option>
+                  <option value="creditcard">Credit Card</option>
+                  <option value="debitcard">Debit Card</option>
+                  <option value="ewallet">E-Wallet</option>
+                  <option value="netbanking">NetBanking</option>
+                  <option value="upi">UPI</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label for="notes" class="form-label"
+                  >Notes
+                  <span class="small text-muted">(Optional)</span>
+                </label>
+                <textarea
+                  class="form-control"
+                  placeholder="Leave a comment here"
+                  id="notes"
+                  rows="3"
+                ></textarea>
+              </div>
+            </div>
+          </form>
+          <div class="d-flex justify-content-end mt-3 column-gap-3">
+            <a class="btn btn-secondary" role="button" routerLink="/expenses"
+              >Cancel</a
+            >
+            <button class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
