@@ -7,7 +7,7 @@ import { ExpenseFormComponent } from '../expense-form/expense-form.component';
   standalone: true,
   imports: [CommonModule, ExpenseFormComponent],
   template: `
-    <app-expense-form>
+    <app-expense-form [isEdit]="true">
       <ng-container addUpdateHeading>Edit Expense</ng-container>
     </app-expense-form>
   `,

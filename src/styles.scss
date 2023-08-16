@@ -31,3 +31,7 @@ $container-max-widths: (
 );
 
 @import "bootstrap/scss/bootstrap.scss";
+
+.ng-invalid.ng-touched:not(form) {
+  border: 1px solid red;
+}
