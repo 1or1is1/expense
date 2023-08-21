@@ -89,10 +89,6 @@ export class ToastComponent {
   toastService = inject(ToastService);
   toasts$ = this.toastService.toasts;
 
-  ngOnInit() {
-    this.toasts$.subscribe(console.log);
-  }
-
   closeToast(id: string) {
     this.toastService.removeToast(id);
   }

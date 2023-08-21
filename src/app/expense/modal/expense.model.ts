@@ -1,9 +1,10 @@
 export interface Expense {
   name: string;
   price: number;
-  spentDate: Date;
+  spentDate: string;
   category: string;
   paidVia: string;
-  notes: string;
+  notes: string | null;
   uid?: string;
+  expenseId?: string;
 }

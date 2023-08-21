@@ -35,3 +35,7 @@ $container-max-widths: (
 .ng-invalid.ng-touched:not(form) {
   border: 1px solid red;
 }
+
+fieldset[disabled] {
+  cursor: not-allowed;
+}

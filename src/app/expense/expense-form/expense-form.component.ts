@@ -1,75 +1,57 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { addDoc, collection, Firestore } from '@angular/fire/firestore';
-import { ExpenseService } from './expense-form.service';
-import { ToastService } from 'src/app/toast.service';
+import { ControlsOf } from 'src/app/app.utils';
+import { Expense } from '../modal/expense.model';
 
 @Component({
   selector: 'app-expense-form',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './expense-form.component.html',
   styleUrls: ['./expense-form.component.scss'],
 })
-export class ExpenseFormComponent implements OnInit {
+export class ExpenseFormComponent {
   #fb = inject(FormBuilder);
-  expenseService = inject(ExpenseService);
-  toastService = inject(ToastService);
 
-  @Input({ required: true })
-  isEdit = false;
+  @Output()
+  formSubmit = new EventEmitter<Expense>();
 
-  loading = false;
-  expenseForm!: FormGroup;
-
-  ngOnInit(): void {
-    this.expenseForm = this.#fb.group({
-      name: ['', [Validators.required]],
-      price: ['', [Validators.required]],
-      spentDate: [
-        new Date().toISOString().split('T')[0],
-        [Validators.required],
-      ],
-      category: ['food', [Validators.required]],
-      paidVia: ['cash', [Validators.required]],
-      notes: [''],
-    });
-  }
+  expenseForm: FormGroup = this.#fb.group<ControlsOf<Expense>>({
+    name: this.#fb.control('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    price: this.#fb.control(0, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.min(1)],
+    }),
+    spentDate: this.#fb.control(new Date().toISOString().split('T')[0], {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    category: this.#fb.control('food', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    paidVia: this.#fb.control('cash', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    notes: this.#fb.control(''),
+  });
 
   onSubmit() {
     this.expenseForm.markAllAsTouched();
     if (this.expenseForm.invalid) {
       return;
     }
-    if (!this.isEdit) {
-      this.addExpense();
-    }
-  }
-
-  async addExpense() {
-    this.loading = true;
-    await this.expenseService
-      .addExpense(this.expenseForm.value)
-      .then((res) => {
-        this.toastService.showSuccess('Expense added Successfully');
-        this.expenseForm.reset({
-          spentDate: new Date().toISOString().split('T')[0],
-          category: 'food',
-          paidVia: 'cash',
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        this.toastService.showFailure('Some error occurred!');
-      })
-      .finally(() => (this.loading = false));
+    this.formSubmit.emit(this.expenseForm.value);
   }
 
   get name() {

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AddExpenseComponent } from './expense/add-expense/add-expense.component';
 import { EditExpenseComponent } from './expense/edit-expense/edit-expense.component';
+import { expenseResolver } from './expense/resolvers/expense.resolver';
 
 export const routes: Routes = [
   {
@@ -19,6 +20,9 @@ export const routes: Routes = [
       {
         path: 'editExpense/:id',
         component: EditExpenseComponent,
+        resolve: {
+          expense: expenseResolver,
+        },
       },
     ],
   },

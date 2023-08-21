@@ -19,8 +19,8 @@
                   formControlName="name"
                 />
                 <div
-                  class="invalid-feedback"
-                  [class.d-block]="name?.touched && name?.invalid"
+                  class="invalid-feedback d-block"
+                  *ngIf="name?.touched && name?.invalid"
                 >
                   Please provide a valid name.
                 </div>
@@ -38,10 +38,22 @@
                     formControlName="price"
                   />
                   <div
-                    class="invalid-feedback"
-                    [class.d-block]="price?.touched && price?.invalid"
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      price?.touched &&
+                      price?.invalid &&
+                      price?.hasError('required')
+                    "
                   >
                     Please enter a valid price.
+                  </div>
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      price?.touched && price?.invalid && price?.hasError('min')
+                    "
+                  >
+                    Price cannot be 0.
                   </div>
                 </div>
               </div>
@@ -55,8 +67,8 @@
                   formControlName="spentDate"
                 />
                 <div
-                  class="invalid-feedback"
-                  [class.d-block]="spentDate?.touched && spentDate?.invalid"
+                  class="invalid-feedback d-block"
+                  *ngIf="spentDate?.touched && spentDate?.invalid"
                 >
                   Please enter a valid date.
                 </div>
@@ -116,27 +128,11 @@
                   id="notes"
                   rows="3"
                   formControlName="notes"
+                  maxlength="150"
                 ></textarea>
               </div>
             </div>
-            <fieldset
-              class="d-flex justify-content-end mt-3 column-gap-3"
-              [disabled]="loading"
-            >
-              <a class="btn btn-secondary" role="button" routerLink="/expenses"
-                >Cancel</a
-              >
-              <button class="btn btn-primary" type="submit">
-                Save&nbsp;
-                <div
-                  class="spinner-border spinner-border-sm"
-                  role="status"
-                  *ngIf="loading"
-                >
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-              </button>
-            </fieldset>
+            <ng-content select="fieldset"></ng-content>
           </form>
         </div>
       </div>
