@@ -5,6 +5,7 @@ import { ExpenseService } from './expense.service';
 import { tap } from 'rxjs';
 import { ToastService } from '../toast.service';
 import { Expense } from './modal/expense.model';
+import { NotificationType } from '../app.utils';
 
 @Component({
   selector: 'app-expense',
@@ -37,7 +38,10 @@ export class ExpenseComponent {
 
   editExpense(expense: Expense) {
     if (!expense?.expenseId) {
-      this.toastService.showFailure('Some error occurred...');
+      this.toastService.showNotification(
+        NotificationType.ERROR,
+        'Some error occurred...',
+      );
       return;
     }
     this.#router.navigate(['editExpense', expense.expenseId], {
@@ -49,10 +53,16 @@ export class ExpenseComponent {
     this.loadingDelete = true;
     try {
       await this.#expenseService.deleteExpense(id);
-      this.toastService.showSuccess('Expense deleted successfully!');
+      this.toastService.showNotification(
+        NotificationType.SUCCESS,
+        'Expense deleted successfully!',
+      );
     } catch (err) {
       console.log(err);
-      this.toastService.showFailure('Some error occurred!');
+      this.toastService.showNotification(
+        NotificationType.ERROR,
+        'Some error occurred!',
+      );
     } finally {
       this.loadingDelete = false;
     }

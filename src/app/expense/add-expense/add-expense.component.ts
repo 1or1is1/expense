@@ -5,6 +5,7 @@ import { ExpenseFormService } from '../expense-form/expense-form.service';
 import { Expense } from '../modal/expense.model';
 import { ToastService } from 'src/app/toast.service';
 import { Router, RouterLink } from '@angular/router';
+import { NotificationType } from 'src/app/app.utils';
 
 @Component({
   selector: 'app-add-expense',
@@ -47,11 +48,17 @@ export class AddExpenseComponent {
       .addExpense(expenseForm)
       .then((res) => {
         this.#router.navigate(['/expenses']);
-        this.toastService.showSuccess('Expense added Successfully');
+        this.toastService.showNotification(
+          NotificationType.SUCCESS,
+          'Expense added Successfully',
+        );
       })
       .catch((err) => {
         console.log(err);
-        this.toastService.showFailure('Some error occurred!');
+        this.toastService.showNotification(
+          NotificationType.ERROR,
+          'Some error occurred!',
+        );
       })
       .finally(() => (this.loading = false));
   }

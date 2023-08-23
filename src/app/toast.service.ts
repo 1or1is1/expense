@@ -1,28 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { NotificationType } from './app.utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToastService {
   #toasts: Toast[] = [];
-  #toastsSubject = new BehaviorSubject<Toast[]>([]);
+  #toastsSubject = new BehaviorSubject<readonly Toast[]>([]);
   toasts = this.#toastsSubject.asObservable();
 
-  showSuccess(message: string, duration: number = 4000) {
+  showNotification(
+    type: NotificationType,
+    message: string,
+    duration: number = 5000,
+  ) {
     const id = this.#generateRandomId();
-    this.#toasts.push({ id: id, isSuccess: true, message: message });
-    this.#emitToasts();
-    const timeout = setTimeout(() => {
-      this.removeToast(id);
-      clearTimeout(timeout);
-    }, duration);
-  }
-
-  showFailure(message: string, duration: number = 4000) {
-    const id = this.#generateRandomId();
-    this.#toasts.push({ id: id, isSuccess: false, message: message });
+    this.#toasts.push({ id: id, type: type, message: message });
     this.#emitToasts();
     const timeout = setTimeout(() => {
       this.removeToast(id);
@@ -43,13 +38,13 @@ export class ToastService {
   }
 
   #emitToasts() {
-    this.#toastsSubject.next([...this.#toasts]);
+    this.#toastsSubject.next(Object.freeze(this.#toasts));
   }
 }
 
 export interface Toast {
   id: string;
-  isSuccess: boolean;
+  type: string;
   message: string;
 }
 
@@ -59,17 +54,15 @@ export interface Toast {
     <div class="toast-container position-fixed top-0 end-0 p-3">
       <ng-container *ngFor="let toast of toasts$ | async">
         <div
-          class="toast fade show"
-          [class.text-bg-success]="toast.isSuccess"
-          [class.text-bg-danger]="!toast.isSuccess"
+          class="toast fade show text-bg-{{ toast.type }}"
           role="alert"
           aria-live="assertive"
           aria-atomic="true"
         >
           <div class="toast-header">
-            <span>{{ toast.isSuccess ? '✅' : '❌' }}&nbsp;</span>
+            <span>{{ toast.type === 'success' ? '✅' : '❌' }}&nbsp;</span>
             <strong class="me-auto">{{
-              toast.isSuccess ? 'Success' : 'Failure'
+              toast.type === 'success' ? 'Success' : 'Failure'
             }}</strong>
             <button
               type="button"

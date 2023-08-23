@@ -12,6 +12,7 @@ import { Expense } from '../modal/expense.model';
 import { ExpenseService } from '../expense.service';
 import { ToastService } from 'src/app/toast.service';
 import { ExpenseFormService } from '../expense-form/expense-form.service';
+import { NotificationType } from 'src/app/app.utils';
 
 @Component({
   selector: 'app-edit-expense',
@@ -56,7 +57,8 @@ export class EditExpenseComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
     this.expense = this.#activatedRoute.snapshot.data['expense'];
     if (!this.expense) {
-      this.toastService.showFailure(
+      this.toastService.showNotification(
+        NotificationType.ERROR,
         'Some error occurred while fetching expense details!',
       );
       this.#router.navigate(['/expenses']);
@@ -76,11 +78,17 @@ export class EditExpenseComponent implements AfterViewInit, OnInit {
     try {
       expense.expenseId = this.expense?.expenseId;
       await this.expenseFormService.updateExpense(expense);
-      this.toastService.showSuccess('Expense updated successfully');
+      this.toastService.showNotification(
+        NotificationType.SUCCESS,
+        'Expense updated successfully',
+      );
       this.#router.navigate(['/expenses']);
     } catch (err) {
       console.log(err);
-      this.toastService.showFailure('Some error occurred!');
+      this.toastService.showNotification(
+        NotificationType.ERROR,
+        'Some error occurred!',
+      );
     } finally {
       this.loading = false;
     }
