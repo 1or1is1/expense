@@ -11,7 +11,7 @@ import {
   query,
   updateDoc,
 } from '@angular/fire/firestore';
-import { Expense } from './modal/expense.model';
+import { ExpenseInterface } from '../modal/expense.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +21,12 @@ export class ExpenseService {
 
   getAllExpenses() {
     const data = query(
-      collection(this.#firestore, 'expenses') as CollectionReference<Expense>,
+      collection(
+        this.#firestore,
+        'expenses',
+      ) as CollectionReference<ExpenseInterface>,
     );
-    return collectionData<Expense>(data, { idField: 'expenseId' });
+    return collectionData<ExpenseInterface>(data, { idField: 'expenseId' });
   }
 
   deleteExpense(id: string | undefined) {
@@ -39,7 +42,7 @@ export class ExpenseService {
       this.#firestore,
       'expenses',
       id || '',
-    ) as DocumentReference<Expense>;
+    ) as DocumentReference<ExpenseInterface>;
     return docData(docRef, { idField: 'expenseId' });
   }
 }

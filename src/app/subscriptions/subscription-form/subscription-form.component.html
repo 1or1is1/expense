@@ -1,0 +1,125 @@
+<div class="container my-4 my-md-5">
+  <div class="row">
+    <div class="col-12 col-md-11 col-lg-9 mx-auto">
+      <div class="card shadow-sm border-dark">
+        <h2 class="card-header">
+          <ng-content select="[addUpdateHeading]"></ng-content>
+        </h2>
+        <div class="card-body">
+          <form [formGroup]="subscriptionForm" (ngSubmit)="onSubmit()">
+            <div class="row row-cols-2 row-gap-3">
+              <div class="col-12">
+                <label for="name" class="form-label">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  aria-describedby="Subscription name"
+                  placeholder="Netflix"
+                  formControlName="name"
+                />
+                <div
+                  class="invalid-feedback d-block"
+                  *ngIf="name?.touched && name?.invalid"
+                >
+                  Please provide a valid name.
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="website" class="form-label">Website</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="website"
+                  aria-describedby="Website name"
+                  placeholder="https://netflix.com"
+                  formControlName="website"
+                />
+                <div
+                  class="invalid-feedback d-block"
+                  *ngIf="website?.touched && website?.invalid"
+                >
+                  Please enter a valid website url.
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="bought-date" class="form-label">Bought Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="bought-date"
+                  aria-describedby="Date of the transaction"
+                  formControlName="boughtDate"
+                />
+                <div
+                  class="invalid-feedback d-block"
+                  *ngIf="boughtDate?.touched && boughtDate?.invalid"
+                >
+                  Please enter a valid date.
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="price" class="form-label">Price</label>
+                <div class="input-group">
+                  <span class="input-group-text">₹</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="price"
+                    aria-describedby="Total price of the subscription"
+                    placeholder="799"
+                    formControlName="price"
+                  />
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      price?.touched &&
+                      price?.invalid &&
+                      price?.hasError('required')
+                    "
+                  >
+                    Please enter a valid price.
+                  </div>
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      price?.touched && price?.invalid && price?.hasError('min')
+                    "
+                  >
+                    Price cannot be 0.
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="paying" class="form-label">Paying</label>
+                <select
+                  id="paying"
+                  class="form-select"
+                  formControlName="paying"
+                >
+                  <option value="monthly">Monthly</option>
+                  <option value="yearly">Yearly</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label for="notes" class="form-label"
+                  >Notes
+                  <span class="small text-muted">(Optional)</span>
+                </label>
+                <textarea
+                  class="form-control"
+                  placeholder="Leave a comment here"
+                  id="notes"
+                  rows="3"
+                  formControlName="notes"
+                  maxlength="150"
+                ></textarea>
+              </div>
+            </div>
+            <ng-content select="fieldset"></ng-content>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,10 +2,12 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ExpenseFormComponent } from '../expense-form/expense-form.component';
 import { ExpenseFormService } from '../expense-form/expense-form.service';
-import { Expense } from '../modal/expense.model';
-import { ToastService } from 'src/app/toast.service';
+import { ExpenseInterface } from '../modal/expense.model';
 import { Router, RouterLink } from '@angular/router';
-import { NotificationType } from 'src/app/app.utils';
+import {
+  NotificationType,
+  ToastService,
+} from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-add-expense',
@@ -42,7 +44,7 @@ export class AddExpenseComponent {
 
   loading = false;
 
-  addExpense(expenseForm: Expense) {
+  addExpense(expenseForm: ExpenseInterface) {
     this.loading = true;
     this.expenseFormService
       .addExpense(expenseForm)

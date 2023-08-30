@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
-import { ToastComponent } from './toast.service';
+import { ToastComponent } from './shared/services/toast.service';
 
 @Component({
   selector: 'app-root',

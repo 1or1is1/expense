@@ -1,18 +1,20 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ExpenseService } from './expense.service';
+import { ExpenseService } from './services/expense.service';
 import { tap } from 'rxjs';
-import { ToastService } from '../toast.service';
-import { Expense } from './modal/expense.model';
-import { NotificationType } from '../app.utils';
+import { ExpenseInterface } from './modal/expense.model';
+import {
+  NotificationType,
+  ToastService,
+} from '../shared/services/toast.service';
+import { GenericTableSkeletonComponent } from '../shared/components/generic-table/generic-table-skeleton.component';
 
 @Component({
   selector: 'app-expense',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, GenericTableSkeletonComponent],
   templateUrl: './expense.component.html',
-  styleUrls: ['./expense.component.scss'],
 })
 export class ExpenseComponent {
   #expenseService = inject(ExpenseService);
@@ -36,7 +38,7 @@ export class ExpenseComponent {
     }),
   );
 
-  editExpense(expense: Expense) {
+  editExpense(expense: ExpenseInterface) {
     if (!expense?.expenseId) {
       this.toastService.showNotification(
         NotificationType.ERROR,

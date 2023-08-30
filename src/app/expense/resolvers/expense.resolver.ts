@@ -3,11 +3,11 @@ import {
   ResolveFn,
   RouterStateSnapshot,
 } from '@angular/router';
-import { Expense } from '../modal/expense.model';
+import { ExpenseInterface } from '../modal/expense.model';
 import { inject } from '@angular/core';
-import { ExpenseService } from '../expense.service';
+import { ExpenseService } from '../services/expense.service';
 
-export const expenseResolver: ResolveFn<Expense> = (
+export const expenseResolver: ResolveFn<ExpenseInterface> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {

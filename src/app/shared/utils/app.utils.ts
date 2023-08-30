@@ -5,8 +5,3 @@ export type ControlsOf<T extends Record<string, any>> = {
     ? FormGroup<ControlsOf<T[K]>>
     : FormControl<T[K]>;
 };
-
-export enum NotificationType {
-  SUCCESS = 'success',
-  ERROR = 'danger',
-}

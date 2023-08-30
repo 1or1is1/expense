@@ -11,8 +11,8 @@
       <h4>Summary</h4>
     </div>
     <div class="col-12 col-md-4 col-lg-3">
-      <div class="card bg-secondary expense-shadow rounded-1">
-        <div class="card-body">
+      <div class="card bg-secondary main-shadow rounded-1">
+        <div class="card-body text-center">
           <h6 class="card-title text-uppercase">Total Expenses</h6>
           <h2 *ngIf="totalExpenses !== null; else loadingTemplate">
             {{ totalExpenses }}
@@ -21,8 +21,8 @@
       </div>
     </div>
     <div class="col-12 col-md-4 col-lg-3">
-      <div class="card expense-shadow bg-secondary rounded-1">
-        <div class="card-body">
+      <div class="card main-shadow bg-secondary rounded-1">
+        <div class="card-body text-center">
           <h6 class="card-title text-uppercase">Total Amount</h6>
           <h2 *ngIf="totalExpensesCost !== null; else loadingTemplate">
             {{ totalExpensesCost | currency: "INR" }}
@@ -31,72 +31,67 @@
       </div>
     </div>
   </div>
-  <div class="row gap-3 gap-md-4 mt-3 mt-md-4">
-    <div class="col-12">
-      <div class="table-responsive table-container expense-shadow mb-2 h-100">
-        <table
-          class="table table-bordered table-striped table-hover mb-0 h-100"
+  <app-generic-table-skeleton>
+    <!-- Table HEADINGS -->
+    <tr theadContent class="text-center">
+      <th [style.min-width.px]="150">Name</th>
+      <th [style.min-width.px]="120">Price</th>
+      <th [style.min-width.px]="150">Spent Date</th>
+      <th [style.min-width.px]="100">Category</th>
+      <th [style.min-width.px]="100">Paid Via</th>
+      <th [style.min-width.px]="365">Notes</th>
+      <th [style.min-width.px]="100">Actions</th>
+    </tr>
+
+    <!-- Table BODY DETAILS -->
+    <tr
+      *ngFor="let expense of expenses$ | async"
+      class="align-middle text-center"
+      tbodyContent
+    >
+      <td>{{ expense.name }}</td>
+      <td>{{ expense.price | currency: "INR" }}</td>
+      <td>{{ expense.spentDate | date }}</td>
+      <td>{{ expense.category }}</td>
+      <td>{{ expense.paidVia }}</td>
+      <td>{{ expense.notes }}</td>
+      <td>
+        <fieldset
+          [disabled]="loadingDelete"
+          class="d-flex justify-content-around"
         >
-          <thead>
-            <tr>
-              <th data-cell="name">Name</th>
-              <th data-cell="price">Price</th>
-              <th data-cell="spent date">Spent Date</th>
-              <th data-cell="category">Category</th>
-              <th data-cell="paid via">Paid Via</th>
-              <th data-cell="notes">Notes</th>
-              <th data-cell="actions">Actions</th>
-            </tr>
-          </thead>
-          <tbody class="table-group-divider">
-            <tr
-              *ngFor="let expense of expenses$ | async"
-              class="align-middle"
-              style="--bs-table-hover-bg: var(--bs-primary-bg-subtle)"
-            >
-              <td>{{ expense.name }}</td>
-              <td>{{ expense.price | currency: "INR" }}</td>
-              <td>{{ expense.spentDate | date }}</td>
-              <td>{{ expense.category }}</td>
-              <td>{{ expense.paidVia }}</td>
-              <td>{{ expense.notes }}</td>
-              <td>
-                <fieldset [disabled]="loadingDelete">
-                  <a
-                    class="btn btn-outline-dark me-1 btn-sm"
-                    title="edit"
-                    type="button"
-                    [routerLink]="[
-                      '/expenses',
-                      'editExpense',
-                      expense.expenseId
-                    ]"
-                  >
-                    <i class="ri-edit-line"></i>
-                  </a>
-                  <button
-                    class="btn btn-outline-danger btn-sm"
-                    title="delete"
-                    type="button"
-                    (click)="deleteExpense(expense.expenseId)"
-                  >
-                    <i class="ri-delete-bin-line"></i>
-                  </button>
-                </fieldset>
-              </td>
-            </tr>
-            <ng-container *ngIf="totalExpenses === null || totalExpenses === 0">
-              <tr>
-                <td colspan="7" class="align-middle">
-                  <h1 class="text-center">No Records...</h1>
-                </td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+          <a
+            class="btn btn-outline-dark btn-sm"
+            title="edit"
+            type="button"
+            [routerLink]="['/expenses', 'editExpense', expense.expenseId]"
+          >
+            <i class="ri-edit-line"></i>
+          </a>
+          <button
+            class="btn btn-outline-danger btn-sm"
+            title="delete"
+            type="button"
+            (click)="deleteExpense(expense.expenseId)"
+          >
+            <i class="ri-delete-bin-line"></i>
+          </button>
+        </fieldset>
+      </td>
+    </tr>
+
+    <!-- Loading -->
+    <ng-container
+      *ngIf="totalExpenses === null || totalExpenses === 0"
+      noRecordsContent
+    >
+      <tr>
+        <td colspan="7" class="align-middle">
+          <h1 class="text-center">No Records...</h1>
+        </td>
+      </tr>
+    </ng-container>
+  </app-generic-table-skeleton>
 </div>
 
 <ng-template #loadingTemplate>

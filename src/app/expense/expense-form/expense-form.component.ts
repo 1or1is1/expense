@@ -6,8 +6,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ControlsOf } from 'src/app/app.utils';
-import { Expense } from '../modal/expense.model';
+import { ControlsOf } from 'src/app/shared/utils/app.utils';
+import { ExpenseInterface } from '../modal/expense.model';
 
 @Component({
   selector: 'app-expense-form',
@@ -20,9 +20,9 @@ export class ExpenseFormComponent {
   #fb = inject(FormBuilder);
 
   @Output()
-  formSubmit = new EventEmitter<Expense>();
+  formSubmit = new EventEmitter<ExpenseInterface>();
 
-  expenseForm: FormGroup = this.#fb.group<ControlsOf<Expense>>({
+  expenseForm: FormGroup = this.#fb.group<ControlsOf<ExpenseInterface>>({
     name: this.#fb.control('', {
       nonNullable: true,
       validators: [Validators.required],

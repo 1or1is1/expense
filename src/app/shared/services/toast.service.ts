@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { NotificationType } from './app.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -33,12 +32,14 @@ export class ToastService {
     let idx = this.#toasts.findIndex((t) => t.id === id);
     if (idx >= 0) {
       this.#toasts.splice(idx, 1);
+      this.#emitToasts();
     }
-    this.#emitToasts();
   }
 
   #emitToasts() {
-    this.#toastsSubject.next(Object.freeze(this.#toasts));
+    // don't try to be smart and write Object.freeze(this.#toasts),
+    // this will make this.#toasts as immutable, which should not be the case
+    this.#toastsSubject.next(Object.freeze([...this.#toasts]));
   }
 }
 
@@ -85,4 +86,9 @@ export class ToastComponent {
   closeToast(id: string) {
     this.toastService.removeToast(id);
   }
+}
+
+export enum NotificationType {
+  SUCCESS = 'success',
+  ERROR = 'danger',
 }

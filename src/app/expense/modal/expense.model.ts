@@ -1,4 +1,4 @@
-export interface Expense {
+export interface ExpenseInterface {
   name: string;
   price: number;
   spentDate: string;

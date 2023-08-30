@@ -8,11 +8,12 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ExpenseFormComponent } from '../expense-form/expense-form.component';
-import { Expense } from '../modal/expense.model';
-import { ExpenseService } from '../expense.service';
-import { ToastService } from 'src/app/toast.service';
+import { ExpenseInterface } from '../modal/expense.model';
 import { ExpenseFormService } from '../expense-form/expense-form.service';
-import { NotificationType } from 'src/app/app.utils';
+import {
+  NotificationType,
+  ToastService,
+} from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-edit-expense',
@@ -49,7 +50,7 @@ export class EditExpenseComponent implements AfterViewInit, OnInit {
   toastService = inject(ToastService);
 
   loading = false;
-  expense: Expense | undefined;
+  expense: ExpenseInterface | undefined;
 
   @ViewChild(ExpenseFormComponent)
   expenseFormComponent!: ExpenseFormComponent;
@@ -73,7 +74,7 @@ export class EditExpenseComponent implements AfterViewInit, OnInit {
     });
   }
 
-  async updateExpense(expense: Expense) {
+  async updateExpense(expense: ExpenseInterface) {
     this.loading = true;
     try {
       expense.expenseId = this.expense?.expenseId;

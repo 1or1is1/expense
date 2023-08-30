@@ -1,0 +1,214 @@
+<div class="container py-2 py-md-3 my-4 my-md-5">
+  <header class="d-flex justify-content-between align-items-center">
+    <span class="fs-2 fw-bold me-auto">Subscriptions</span>
+    <span
+      ><a class="btn btn-primary" routerLink="addSubscription"
+        >Add Subscription</a
+      ></span
+    >
+  </header>
+  <hr />
+  <div class="row row-gap-3 row-gap-md-4 mt-3 mt-md-4">
+    <div class="col-12">
+      <h4>Summary</h4>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="card bg-secondary main-shadow rounded-1 h-100">
+        <div class="card-body text-center">
+          <h6
+            class="card-title text-uppercase"
+            title="Total Subscriptions bought"
+          >
+            Total Subscriptions
+          </h6>
+          <h2 *ngIf="totalSubscriptions !== null; else loadingTemplate">
+            {{ totalSubscriptions }}
+          </h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="card bg-secondary main-shadow rounded-1 h-100">
+        <div class="card-body text-center">
+          <h6
+            class="card-title text-uppercase"
+            title="Includes Only ACTIVE Subscriptions"
+          >
+            Total Amount
+          </h6>
+          <h2 *ngIf="totalSubscriptionsCost !== null; else loadingTemplate">
+            {{ totalSubscriptionsCost | currency: "INR" }}
+          </h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="card bg-secondary main-shadow rounded-1 h-100">
+        <div class="card-body text-center">
+          <div class="row">
+            <div class="col-6 border-end border-dark">
+              <h6
+                class="card-title text-uppercase align-middle"
+                title="Currently Active Subscriptions"
+              >
+                Active
+              </h6>
+              <h2 *ngIf="activeSubscriptions !== null; else loadingTemplate">
+                {{ activeSubscriptions }}
+              </h2>
+            </div>
+            <div class="col-6">
+              <h6
+                class="card-title text-uppercase align-middle"
+                title="Cancelled Subscriptions"
+              >
+                Cancelled
+              </h6>
+              <h2 *ngIf="cancelledSubscriptions !== null; else loadingTemplate">
+                {{ cancelledSubscriptions }}
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="card bg-secondary main-shadow rounded-1 h-100">
+        <div class="card-body text-center">
+          <div class="row">
+            <div class="col-6 border-end border-dark">
+              <h6
+                class="card-title text-uppercase align-middle"
+                title="Total Montly Subscriptions"
+              >
+                Monthly
+              </h6>
+              <h2
+                *ngIf="
+                  monthlyActiveSubscriptions !== null;
+                  else loadingTemplate
+                "
+              >
+                {{ monthlyActiveSubscriptions }}
+              </h2>
+            </div>
+            <div class="col-6">
+              <h6
+                class="card-title text-uppercase align-middle"
+                title="Total Yearly Subscriptions"
+              >
+                Yearly
+              </h6>
+              <h2
+                *ngIf="yearlyActiveSubscriptions !== null; else loadingTemplate"
+              >
+                {{ yearlyActiveSubscriptions }}
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-12 col-md-6 col-lg-3">
+      <div class="card bg-secondary main-shadow rounded-1 h-100">
+        <div class="card-body text-center">
+          <h6 class="card-title text-uppercase">Total Monthly</h6>
+          <h2 *ngIf="monthlyActiveSubscriptions !== null; else loadingTemplate">
+            {{ monthlyActiveSubscriptions }}
+          </h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="card bg-secondary main-shadow rounded-1 h-100">
+        <div class="card-body text-center">
+          <h6 class="card-title text-uppercase">Total Yearly</h6>
+          <h2 *ngIf="yearlyActiveSubscriptions !== null; else loadingTemplate">
+            {{ yearlyActiveSubscriptions }}
+          </h2>
+        </div>
+      </div>
+    </div> -->
+    <app-generic-table-skeleton>
+      <!-- Table HEADINGS -->
+      <h4 tableCaption class="text-decoration-underline mb-2">
+        Subscription Details
+      </h4>
+      <tr theadContent class="text-center">
+        <th [style.min-width.px]="150">Name</th>
+        <th [style.min-width.px]="120">Price</th>
+        <th [style.min-width.px]="130">Occurrence</th>
+        <th [style.min-width.px]="150">Start/Cancel Date</th>
+        <th [style.min-width.px]="350">Notes</th>
+        <th [style.min-width.px]="80">Status</th>
+        <th [style.min-width.px]="120">Actions</th>
+      </tr>
+
+      <!-- Table BODY DETAILS -->
+      <tr
+        *ngFor="let subscription of subscriptions$ | async"
+        tbodyContent
+        class="align-middle text-center"
+      >
+        <td>{{ subscription.name }}</td>
+        <td>{{ subscription.price | currency: "INR" }}</td>
+        <td>{{ subscription.paying | uppercase }}</td>
+        <td>{{ subscription.boughtDate | date }}</td>
+        <td>{{ subscription.notes }}</td>
+        <td class="text-center">
+          <span
+            class="d-inline-block badge"
+            [class.text-bg-success]="subscription.status === 'active'"
+            [class.text-bg-danger]="subscription.status !== 'active'"
+            >{{ subscription.status | titlecase }}</span
+          >
+        </td>
+        <td>
+          <fieldset class="d-flex justify-content-between" [disabled]="loading">
+            <button
+              class="btn btn-outline-primary btn-sm"
+              title="change status"
+              type="button"
+              (click)="
+                onToggleStatus(subscription.subscriptionId, subscription.status)
+              "
+            >
+              <i class="ri-refresh-line"></i>
+            </button>
+            <a
+              class="btn btn-outline-dark btn-sm"
+              title="edit"
+              type="button"
+              [routerLink]="['editSubscription', subscription.subscriptionId]"
+            >
+              <i class="ri-edit-line"></i>
+            </a>
+            <button
+              class="btn btn-outline-danger btn-sm"
+              title="delete"
+              type="button"
+              (click)="deleteSubscription(subscription.subscriptionId)"
+            >
+              <i class="ri-delete-bin-line"></i>
+            </button>
+          </fieldset>
+        </td>
+      </tr>
+
+      <!-- Loading -->
+      <ng-container noRecordsContent *ngIf="totalSubscriptions === 0">
+        <tr>
+          <td colspan="7" class="align-middle">
+            <h1 class="text-center">No Records...</h1>
+          </td>
+        </tr>
+      </ng-container>
+    </app-generic-table-skeleton>
+  </div>
+</div>
+
+<ng-template #loadingTemplate>
+  <div class="spinner-border spinner-border-sm" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</ng-template>
