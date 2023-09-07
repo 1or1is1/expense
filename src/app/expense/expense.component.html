@@ -1,4 +1,4 @@
-<div class="container py-2 py-md-3 my-4 my-md-5">
+<div class="container pb-6 my-4">
   <header class="d-flex justify-content-between align-items-center">
     <span class="fs-2 fw-bold me-auto">Expenses</span>
     <span
@@ -6,12 +6,12 @@
     >
   </header>
   <hr />
-  <div class="row gap-3 gap-md-4 mt-3 mt-md-4">
+  <div class="row row-gap-3 row-gap-md-4 mt-3 mt-md-4">
     <div class="col-12">
       <h4>Summary</h4>
     </div>
-    <div class="col-12 col-md-4 col-lg-3">
-      <div class="card bg-secondary main-shadow rounded-1">
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="card main-shadow rounded-1 text-bg-secondary">
         <div class="card-body text-center">
           <h6 class="card-title text-uppercase">Total Expenses</h6>
           <h2 *ngIf="totalExpenses !== null; else loadingTemplate">
@@ -20,8 +20,8 @@
         </div>
       </div>
     </div>
-    <div class="col-12 col-md-4 col-lg-3">
-      <div class="card main-shadow bg-secondary rounded-1">
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="card main-shadow text-bg-secondary rounded-1">
         <div class="card-body text-center">
           <h6 class="card-title text-uppercase">Total Amount</h6>
           <h2 *ngIf="totalExpensesCost !== null; else loadingTemplate">
@@ -32,6 +32,9 @@
     </div>
   </div>
   <app-generic-table-skeleton>
+    <h4 tableCaption class="text-decoration-underline mb-2">
+      Expenses Details
+    </h4>
     <!-- Table HEADINGS -->
     <tr theadContent class="text-center">
       <th [style.min-width.px]="150">Name</th>
@@ -40,7 +43,14 @@
       <th [style.min-width.px]="100">Category</th>
       <th [style.min-width.px]="100">Paid Via</th>
       <th [style.min-width.px]="365">Notes</th>
-      <th [style.min-width.px]="100">Actions</th>
+      <th [style.min-width.px]="100" class="position-sticky end-0 top-0 p-0">
+        <div
+          style="border-left: 2px solid black"
+          class="h-100 d-flex justify-content-center align-items-center"
+        >
+          Actions
+        </div>
+      </th>
     </tr>
 
     <!-- Table BODY DETAILS -->
@@ -55,28 +65,30 @@
       <td>{{ expense.category }}</td>
       <td>{{ expense.paidVia }}</td>
       <td>{{ expense.notes }}</td>
-      <td>
-        <fieldset
-          [disabled]="loadingDelete"
-          class="d-flex justify-content-around"
+      <td class="position-sticky end-0 top-0 p-0">
+        <div
+          class="h-100 d-flex justify-content-center align-items-center"
+          style="border-left: 2px solid black"
         >
-          <a
-            class="btn btn-outline-dark btn-sm"
-            title="edit"
-            type="button"
-            [routerLink]="['/expenses', 'editExpense', expense.expenseId]"
-          >
-            <i class="ri-edit-line"></i>
-          </a>
-          <button
-            class="btn btn-outline-danger btn-sm"
-            title="delete"
-            type="button"
-            (click)="deleteExpense(expense.expenseId)"
-          >
-            <i class="ri-delete-bin-line"></i>
-          </button>
-        </fieldset>
+          <fieldset [disabled]="loadingDelete" class="d-flex gap-1">
+            <a
+              class="btn btn-sm text-bg-dark"
+              title="edit"
+              type="button"
+              [routerLink]="['/expenses', 'editExpense', expense.expenseId]"
+            >
+              <i class="ri-edit-line"></i>
+            </a>
+            <button
+              class="btn text-bg-danger btn-sm"
+              title="delete"
+              type="button"
+              (click)="deleteExpense(expense.expenseId)"
+            >
+              <i class="ri-delete-bin-line"></i>
+            </button>
+          </fieldset>
+        </div>
       </td>
     </tr>
 

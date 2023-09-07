@@ -1,4 +1,4 @@
-<div class="container py-2 py-md-3 my-4 my-md-5">
+<div class="container pb-6 my-4">
   <header class="d-flex justify-content-between align-items-center">
     <span class="fs-2 fw-bold me-auto">Subscriptions</span>
     <span
@@ -13,7 +13,7 @@
       <h4>Summary</h4>
     </div>
     <div class="col-12 col-md-6 col-lg-3">
-      <div class="card bg-secondary main-shadow rounded-1 h-100">
+      <div class="card text-bg-secondary main-shadow rounded-1 h-100">
         <div class="card-body text-center">
           <h6
             class="card-title text-uppercase"
@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="col-12 col-md-6 col-lg-3">
-      <div class="card bg-secondary main-shadow rounded-1 h-100">
+      <div class="card text-bg-secondary main-shadow rounded-1 h-100">
         <div class="card-body text-center">
           <h6
             class="card-title text-uppercase"
@@ -43,7 +43,7 @@
       </div>
     </div>
     <div class="col-12 col-md-6 col-lg-3">
-      <div class="card bg-secondary main-shadow rounded-1 h-100">
+      <div class="card text-bg-secondary main-shadow rounded-1 h-100">
         <div class="card-body text-center">
           <div class="row">
             <div class="col-6 border-end border-dark">
@@ -73,7 +73,7 @@
       </div>
     </div>
     <div class="col-12 col-md-6 col-lg-3">
-      <div class="card bg-secondary main-shadow rounded-1 h-100">
+      <div class="card text-bg-secondary main-shadow rounded-1 h-100">
         <div class="card-body text-center">
           <div class="row">
             <div class="col-6 border-end border-dark">
@@ -109,26 +109,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="col-12 col-md-6 col-lg-3">
-      <div class="card bg-secondary main-shadow rounded-1 h-100">
-        <div class="card-body text-center">
-          <h6 class="card-title text-uppercase">Total Monthly</h6>
-          <h2 *ngIf="monthlyActiveSubscriptions !== null; else loadingTemplate">
-            {{ monthlyActiveSubscriptions }}
-          </h2>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-md-6 col-lg-3">
-      <div class="card bg-secondary main-shadow rounded-1 h-100">
-        <div class="card-body text-center">
-          <h6 class="card-title text-uppercase">Total Yearly</h6>
-          <h2 *ngIf="yearlyActiveSubscriptions !== null; else loadingTemplate">
-            {{ yearlyActiveSubscriptions }}
-          </h2>
-        </div>
-      </div>
-    </div> -->
     <app-generic-table-skeleton>
       <!-- Table HEADINGS -->
       <h4 tableCaption class="text-decoration-underline mb-2">
@@ -137,11 +117,18 @@
       <tr theadContent class="text-center">
         <th [style.min-width.px]="150">Name</th>
         <th [style.min-width.px]="120">Price</th>
-        <th [style.min-width.px]="130">Occurrence</th>
-        <th [style.min-width.px]="150">Start/Cancel Date</th>
+        <th [style.min-width.px]="140">Recurring</th>
+        <th [style.min-width.px]="140">Start/Cancel Date</th>
         <th [style.min-width.px]="350">Notes</th>
         <th [style.min-width.px]="80">Status</th>
-        <th [style.min-width.px]="120">Actions</th>
+        <th [style.min-width.px]="120" class="position-sticky end-0 top-0 p-0">
+          <div
+            style="border-left: 2px solid black"
+            class="h-100 d-flex justify-content-center align-items-center"
+          >
+            Actions
+          </div>
+        </th>
       </tr>
 
       <!-- Table BODY DETAILS -->
@@ -150,8 +137,19 @@
         tbodyContent
         class="align-middle text-center"
       >
-        <td>{{ subscription.name }}</td>
-        <td>{{ subscription.price | currency: "INR" }}</td>
+        <td>
+          <div class="d-flex align-items-center justify-content-center gap-2">
+            <img
+              style="width: 16px; height: 16px"
+              src="http://www.google.com/s2/favicons?domain={{
+                subscription.website
+              }}"
+            />{{ subscription.name }}
+          </div>
+        </td>
+        <td [title]="subscription.paying">
+          {{ subscription.price | currency: "INR" }}
+        </td>
         <td>{{ subscription.paying | uppercase }}</td>
         <td>{{ subscription.boughtDate | date }}</td>
         <td>{{ subscription.notes }}</td>
@@ -163,40 +161,51 @@
             >{{ subscription.status | titlecase }}</span
           >
         </td>
-        <td>
-          <fieldset class="d-flex justify-content-between" [disabled]="loading">
-            <button
-              class="btn btn-outline-primary btn-sm"
-              title="change status"
-              type="button"
-              (click)="
-                onToggleStatus(subscription.subscriptionId, subscription.status)
-              "
-            >
-              <i class="ri-refresh-line"></i>
-            </button>
-            <a
-              class="btn btn-outline-dark btn-sm"
-              title="edit"
-              type="button"
-              [routerLink]="['editSubscription', subscription.subscriptionId]"
-            >
-              <i class="ri-edit-line"></i>
-            </a>
-            <button
-              class="btn btn-outline-danger btn-sm"
-              title="delete"
-              type="button"
-              (click)="deleteSubscription(subscription.subscriptionId)"
-            >
-              <i class="ri-delete-bin-line"></i>
-            </button>
-          </fieldset>
+        <td class="position-sticky end-0 top-0 p-0">
+          <div
+            class="h-100 d-flex justify-content-center align-items-center"
+            style="border-left: 2px solid black"
+          >
+            <fieldset class="d-flex gap-1" [disabled]="loading">
+              <button
+                class="btn text-bg-primary btn-sm"
+                title="change status"
+                type="button"
+                (click)="
+                  onToggleStatus(
+                    subscription.subscriptionId,
+                    subscription.status
+                  )
+                "
+              >
+                <i class="ri-refresh-line"></i>
+              </button>
+              <a
+                class="btn text-bg-dark btn-sm"
+                title="edit"
+                type="button"
+                [routerLink]="['editSubscription', subscription.subscriptionId]"
+              >
+                <i class="ri-edit-line"></i>
+              </a>
+              <button
+                class="btn text-bg-danger btn-sm"
+                title="delete"
+                type="button"
+                (click)="deleteSubscription(subscription.subscriptionId)"
+              >
+                <i class="ri-delete-bin-line"></i>
+              </button>
+            </fieldset>
+          </div>
         </td>
       </tr>
 
       <!-- Loading -->
-      <ng-container noRecordsContent *ngIf="totalSubscriptions === 0">
+      <ng-container
+        noRecordsContent
+        *ngIf="totalSubscriptions === null || totalSubscriptions === 0"
+      >
         <tr>
           <td colspan="7" class="align-middle">
             <h1 class="text-center">No Records...</h1>

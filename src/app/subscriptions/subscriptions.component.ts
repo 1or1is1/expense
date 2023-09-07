@@ -1,9 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from '@angular/core';
 import { GenericTableSkeletonComponent } from '../shared/components/generic-table/generic-table-skeleton.component';
 import { RouterLink } from '@angular/router';
 import { SubscriptionService } from './services/subscription.service';
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 import {
   NotificationType,
   ToastService,
@@ -15,10 +20,12 @@ import { StatusType, RecurType } from './modal/subscription.interface';
   templateUrl: './subscriptions.component.html',
   standalone: true,
   imports: [CommonModule, GenericTableSkeletonComponent, RouterLink],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionsComponent {
   subscriptionService = inject(SubscriptionService);
   toastService = inject(ToastService);
+  cdr = inject(ChangeDetectorRef);
 
   totalSubscriptions: number | null = null;
   activeSubscriptions: number | null = null;
@@ -74,6 +81,7 @@ export class SubscriptionsComponent {
       );
     } finally {
       this.loading = false;
+      this.cdr.markForCheck();
     }
   }
 
@@ -100,6 +108,7 @@ export class SubscriptionsComponent {
       );
     } finally {
       this.loading = false;
+      this.cdr.markForCheck();
     }
   }
 }

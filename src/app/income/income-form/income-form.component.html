@@ -1,0 +1,115 @@
+<div class="container my-4 my-md-5">
+  <div class="row">
+    <div class="col-12 col-md-11 col-lg-9 mx-auto">
+      <div class="card shadow-sm border-dark">
+        <h2 class="card-header">
+          <ng-content select="[addUpdateHeading]"></ng-content>
+        </h2>
+        <div class="card-body">
+          <form [formGroup]="incomeForm" (ngSubmit)="onSubmit()">
+            <div class="row row-cols-2 row-gap-3">
+              <div class="col-12">
+                <label for="name" class="form-label">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  aria-describedby="Subscription name"
+                  placeholder="Monthly Salary"
+                  formControlName="name"
+                />
+                <div
+                  class="invalid-feedback d-block"
+                  *ngIf="name?.touched && name?.invalid"
+                >
+                  Please provide a valid name.
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="amount" class="form-label">Amount</label>
+                <div class="input-group">
+                  <span class="input-group-text">₹</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="amount"
+                    aria-describedby="Total Amount of the Income"
+                    placeholder="10000"
+                    formControlName="amount"
+                  />
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      amount?.touched &&
+                      amount?.invalid &&
+                      amount?.hasError('required')
+                    "
+                  >
+                    Please enter a valid price.
+                  </div>
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      amount?.touched &&
+                      amount?.invalid &&
+                      amount?.hasError('min')
+                    "
+                  >
+                    Amount cannot be 0.
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="received-date" class="form-label"
+                  >Received Date</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  id="received-date"
+                  aria-describedby="Date of the transaction"
+                  formControlName="receivedDate"
+                />
+                <div
+                  class="invalid-feedback d-block"
+                  *ngIf="receivedDate?.touched && receivedDate?.invalid"
+                >
+                  Please enter a valid date.
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="Category" class="form-label">Category</label>
+                <select
+                  id="Category"
+                  class="form-select"
+                  formControlName="category"
+                >
+                  <option value="salary">Salary</option>
+                  <option value="youtube">Youtube</option>
+                  <option value="passiveIncome">Passive Income</option>
+                  <option value="ads">Ads</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label for="notes" class="form-label"
+                  >Notes
+                  <span class="small text-muted">(Optional)</span>
+                </label>
+                <textarea
+                  class="form-control"
+                  placeholder="Leave a comment here"
+                  id="notes"
+                  rows="3"
+                  formControlName="notes"
+                  maxlength="150"
+                ></textarea>
+              </div>
+            </div>
+            <ng-content select="fieldset"></ng-content>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

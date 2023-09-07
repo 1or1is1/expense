@@ -7,8 +7,23 @@ import { SubscriptionsComponent } from './subscriptions/subscriptions.component'
 import { AddSubscriptionComponent } from './subscriptions/add-subscription/add-subscription.component';
 import { EditSubscriptionComponent } from './subscriptions/edit-subscription/edit-subscription.component';
 import { subscriptionResolver } from './subscriptions/resolvers/subscription.resolver';
+import { IncomeComponent } from './income/income.component';
+import { AddIncomeComponent } from './income/add-income/add-income.component';
+import { incomeResolver } from './income/resolvers/income.resolvers';
+import { EditIncomeComponent } from './income/edit-income/edit-income.component';
+import { OverviewComponent } from './overview/overview.component';
 
 export const routes: Routes = [
+  {
+    path: 'overview',
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        component: OverviewComponent,
+      },
+    ],
+  },
   {
     path: 'expenses',
     children: [
@@ -52,12 +67,33 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'incomes',
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        component: IncomeComponent,
+      },
+      {
+        path: 'addIncome',
+        component: AddIncomeComponent,
+      },
+      {
+        path: 'editIncome/:id',
+        component: EditIncomeComponent,
+        resolve: {
+          income: incomeResolver,
+        },
+      },
+    ],
+  },
+  {
     path: '',
-    redirectTo: 'expenses',
+    redirectTo: 'overview',
     pathMatch: 'full',
   },
   {
     path: '**',
-    redirectTo: 'expenses',
+    redirectTo: 'overview',
   },
 ];

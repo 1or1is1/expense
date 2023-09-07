@@ -16,7 +16,11 @@ export class ExpenseFormService {
   #expensesCollection = collection(this.#firestore, 'expenses');
 
   addExpense(expense: ExpenseInterface) {
-    return addDoc(this.#expensesCollection, expense);
+    let updatedExpense = {
+      ...expense,
+      spentDate: new Date(expense.spentDate).getTime(),
+    };
+    return addDoc(this.#expensesCollection, updatedExpense);
   }
 
   updateExpense(expense: ExpenseInterface) {

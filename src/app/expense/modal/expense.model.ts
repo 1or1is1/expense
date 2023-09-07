@@ -1,7 +1,7 @@
 export interface ExpenseInterface {
   name: string;
   price: number;
-  spentDate: string;
+  spentDate: string | number;
   category: string;
   paidVia: string;
   notes: string | null;

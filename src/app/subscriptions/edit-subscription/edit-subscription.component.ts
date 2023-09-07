@@ -61,15 +61,21 @@ export class EditSubscriptionComponent {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.subscriptionForm.subscriptionForm.patchValue({
-        ...this.subscription,
-      });
+      if (this.subscription) {
+        this.subscriptionForm.subscriptionForm.patchValue({
+          ...this.subscription,
+          boughtDate: new Date(this.subscription.boughtDate)
+            .toISOString()
+            .split('T')[0],
+        });
+      }
     });
   }
 
   async onFormSubmit(formData: SubscriptionInterface) {
     this.loading = true;
     formData.subscriptionId = this.subscription?.subscriptionId;
+    formData.boughtDate = new Date(formData.boughtDate).getTime();
     try {
       await this.subscriptionFormService.updateSubscription(formData);
       this.toastService.showNotification(

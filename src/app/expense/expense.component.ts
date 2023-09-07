@@ -1,4 +1,9 @@
-import { Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ExpenseService } from './services/expense.service';
@@ -15,12 +20,14 @@ import { GenericTableSkeletonComponent } from '../shared/components/generic-tabl
   standalone: true,
   imports: [CommonModule, RouterLink, GenericTableSkeletonComponent],
   templateUrl: './expense.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpenseComponent {
   #expenseService = inject(ExpenseService);
   #router = inject(Router);
   #activatedRoute = inject(ActivatedRoute);
   toastService = inject(ToastService);
+  cdr = inject(ChangeDetectorRef);
 
   totalExpenses: number | null = null;
   totalExpensesCost: number | null = null;
@@ -67,6 +74,7 @@ export class ExpenseComponent {
       );
     } finally {
       this.loadingDelete = false;
+      this.cdr.markForCheck();
     }
   }
 }

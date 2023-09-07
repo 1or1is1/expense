@@ -9,7 +9,6 @@ import {
   doc,
   docData,
   query,
-  updateDoc,
 } from '@angular/fire/firestore';
 import { ExpenseInterface } from '../modal/expense.model';
 

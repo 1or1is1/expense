@@ -68,9 +68,14 @@ export class EditExpenseComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.expenseFormComponent.expenseForm.patchValue({
-        ...this.expense,
-      });
+      if (this.expense) {
+        this.expenseFormComponent.expenseForm.patchValue({
+          ...this.expense,
+          spentDate: new Date(this.expense.spentDate)
+            .toISOString()
+            .split('T')[0],
+        });
+      }
     });
   }
 
@@ -78,6 +83,7 @@ export class EditExpenseComponent implements AfterViewInit, OnInit {
     this.loading = true;
     try {
       expense.expenseId = this.expense?.expenseId;
+      expense.spentDate = new Date(expense.spentDate).getTime();
       await this.expenseFormService.updateExpense(expense);
       this.toastService.showNotification(
         NotificationType.SUCCESS,

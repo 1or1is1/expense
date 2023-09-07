@@ -1,0 +1,125 @@
+<div class="container pb-6 my-4">
+  <header class="d-flex justify-content-between align-items-center">
+    <span class="fs-2 fw-bold me-auto">Income</span>
+    <span
+      ><a class="btn btn-primary" routerLink="addIncome">Add Income</a></span
+    >
+  </header>
+  <hr />
+  <div class="row row-gap-3 row-gap-md-4 mt-3 mt-md-4">
+    <div class="col-12">
+      <h4>Summary</h4>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="card text-bg-secondary main-shadow rounded-1 h-100">
+        <div class="card-body text-center">
+          <h6 class="card-title text-uppercase" title="Total Income Count">
+            Total Income
+          </h6>
+          <h2 *ngIf="totalIncomeCount !== null; else loadingTemplate">
+            {{ totalIncomeCount }}
+          </h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="card text-bg-secondary main-shadow rounded-1 h-100">
+        <div class="card-body text-center">
+          <h6 class="card-title text-uppercase" title="Total Income Amount">
+            Total Amount
+          </h6>
+          <h2 *ngIf="totalIncomeAmount !== null; else loadingTemplate">
+            {{ totalIncomeAmount | currency: "INR" }}
+          </h2>
+        </div>
+      </div>
+    </div>
+    <app-generic-table-skeleton>
+      <!-- Table HEADINGS -->
+      <h4 tableCaption class="text-decoration-underline mb-2">
+        Income Details
+      </h4>
+      <tr theadContent class="text-center">
+        <th [style.min-width.px]="140">Name</th>
+        <th [style.min-width.px]="110">Amount</th>
+        <th [style.min-width.px]="150">Received Date</th>
+        <th [style.min-width.px]="100">Category</th>
+        <th [style.min-width.px]="320">Notes</th>
+        <th [style.min-width.px]="100" class="position-sticky end-0 top-0 p-0">
+          <div
+            style="border-left: 2px solid black"
+            class="h-100 d-flex justify-content-center align-items-center"
+          >
+            Actions
+          </div>
+        </th>
+      </tr>
+
+      <!-- Table BODY DETAILS -->
+      <tr
+        tbodyContent
+        class="align-middle text-center"
+        *ngFor="let income of incomes$ | async"
+      >
+        <td>
+          {{ income.name }}
+        </td>
+        <td>
+          {{ income.amount | currency: "INR" }}
+        </td>
+        <td>
+          {{ income.receivedDate | date }}
+        </td>
+        <td>
+          {{ income.category }}
+        </td>
+        <td>
+          {{ income.notes }}
+        </td>
+        <td class="position-sticky end-0 top-0 p-0">
+          <div
+            class="h-100 d-flex justify-content-center align-items-center"
+            style="border-left: 2px solid black"
+          >
+            <fieldset class="d-flex gap-1" [disabled]="loading">
+              <a
+                class="btn btn-sm text-bg-dark"
+                title="edit"
+                type="button"
+                [routerLink]="['editIncome', income.incomeId]"
+              >
+                <i class="ri-edit-line"></i>
+              </a>
+              <button
+                class="btn text-bg-danger btn-sm"
+                title="delete"
+                type="button"
+                (click)="deleteIncome(income.incomeId)"
+              >
+                <i class="ri-delete-bin-line"></i>
+              </button>
+            </fieldset>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Loading -->
+      <ng-container
+        noRecordsContent
+        *ngIf="totalIncomeCount === 0 || totalIncomeCount === null"
+      >
+        <tr>
+          <td colspan="7" class="align-middle">
+            <h1 class="text-center">No Records...</h1>
+          </td>
+        </tr>
+      </ng-container>
+    </app-generic-table-skeleton>
+  </div>
+</div>
+
+<ng-template #loadingTemplate>
+  <div class="spinner-border spinner-border-sm" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</ng-template>

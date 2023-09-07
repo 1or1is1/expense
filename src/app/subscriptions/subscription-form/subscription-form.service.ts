@@ -16,7 +16,11 @@ export class SubscriptionFormService {
   #subscriptionCollection = collection(this.#firestore, 'subscriptions');
 
   addSubscription(subscription: SubscriptionInterface) {
-    return addDoc(this.#subscriptionCollection, subscription);
+    let updatedSubs = {
+      ...subscription,
+      boughtDate: new Date(subscription.boughtDate).getTime(),
+    };
+    return addDoc(this.#subscriptionCollection, updatedSubs);
   }
 
   updateSubscription(subscription: SubscriptionInterface) {
