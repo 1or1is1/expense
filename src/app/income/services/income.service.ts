@@ -11,12 +11,18 @@ import {
   query,
 } from '@angular/fire/firestore';
 import { IncomeInterface } from '../modal/income.interface';
+import { catchError, of } from 'rxjs';
+import {
+  NotificationType,
+  ToastService,
+} from 'src/app/shared/services/toast.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IncomeService {
   #firestore = inject(Firestore);
+  toastService = inject(ToastService);
 
   getAllIncomes() {
     const data = query(
@@ -27,7 +33,15 @@ export class IncomeService {
     );
     return collectionData<IncomeInterface>(data, {
       idField: 'incomeId',
-    });
+    }).pipe(
+      catchError(() => {
+        this.toastService.showNotification(
+          NotificationType.ERROR,
+          'Some error occurred while fetching data',
+        );
+        return of([]);
+      }),
+    );
   }
 
   deleteIncome(incomeId: string) {

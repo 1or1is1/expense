@@ -11,12 +11,18 @@ import {
   query,
 } from '@angular/fire/firestore';
 import { ExpenseInterface } from '../modal/expense.model';
+import { catchError, of } from 'rxjs';
+import {
+  NotificationType,
+  ToastService,
+} from 'src/app/shared/services/toast.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExpenseService {
   #firestore = inject(Firestore);
+  toastService = inject(ToastService);
 
   getAllExpenses() {
     const data = query(
@@ -25,7 +31,17 @@ export class ExpenseService {
         'expenses',
       ) as CollectionReference<ExpenseInterface>,
     );
-    return collectionData<ExpenseInterface>(data, { idField: 'expenseId' });
+    return collectionData<ExpenseInterface>(data, {
+      idField: 'expenseId',
+    }).pipe(
+      catchError(() => {
+        this.toastService.showNotification(
+          NotificationType.ERROR,
+          'Some error occurred while fetching data',
+        );
+        return of([]);
+      }),
+    );
   }
 
   deleteExpense(id: string | undefined) {

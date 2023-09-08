@@ -15,12 +15,18 @@ import {
   StatusType,
   SubscriptionInterface,
 } from '../modal/subscription.interface';
+import { catchError, of } from 'rxjs';
+import {
+  NotificationType,
+  ToastService,
+} from 'src/app/shared/services/toast.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SubscriptionService {
   #firestore = inject(Firestore);
+  toastService = inject(ToastService);
 
   getAllSubscriptions() {
     const data = query(
@@ -31,7 +37,15 @@ export class SubscriptionService {
     );
     return collectionData<SubscriptionInterface>(data, {
       idField: 'subscriptionId',
-    });
+    }).pipe(
+      catchError(() => {
+        this.toastService.showNotification(
+          NotificationType.ERROR,
+          'Some error occurred while fetching data',
+        );
+        return of([]);
+      }),
+    );
   }
 
   toggleSubscriptionStatus(subId: string, status: StatusType) {
