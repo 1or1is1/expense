@@ -24,7 +24,7 @@ export class OverviewService {
     'expenses',
   ) as CollectionReference<ExpenseInterface>;
 
-  private readonly incomCollection = collection(
+  private readonly incomeCollection = collection(
     this.#firestore,
     'incomes',
   ) as CollectionReference<IncomeInterface>;
@@ -68,14 +68,16 @@ export class OverviewService {
       where('spentDate', '>=', date),
     );
     let incomeQuery = query(
-      this.incomCollection,
+      this.incomeCollection,
       where('receivedDate', '>=', date),
     );
     let subscriptionQuery = query(
       this.subscriptionCollection,
       where('boughtDate', '>=', date),
     );
-    return combineLatest([
+    return combineLatest<
+      [ExpenseInterface[], IncomeInterface[], SubscriptionInterface[]]
+    >([
       collectionData(expenseQuery),
       collectionData(incomeQuery),
       collectionData(subscriptionQuery),
