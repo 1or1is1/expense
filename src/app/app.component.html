@@ -13,5 +13,28 @@
     style="width: 100%"
   ></div>
 </div> -->
+<ng-container *ngIf="user$ | async as user; else unauthorized">
+  <div
+    class="position-fixed bottom-0 d-block w-100 text-center text-bg-warning z-3"
+  >
+    You are signed in as
+    {{ user?.isAnonymous ? "Anonymous, Sign in with " : user?.email }}
+    <button
+      class="btn-link py-0 btn ps-1"
+      *ngIf="user?.isAnonymous"
+      (click)="signInWithGoogle()"
+    >
+      Google ?
+    </button>
+  </div>
+</ng-container>
+<ng-template #unauthorized>
+  <div
+    class="position-fixed bottom-0 d-block w-100 text-center text-bg-warning z-3"
+  >
+    Unauthorized
+  </div>
+</ng-template>
+
 <router-outlet></router-outlet>
 <app-toast></app-toast>

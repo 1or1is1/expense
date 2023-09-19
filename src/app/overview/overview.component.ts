@@ -1,21 +1,15 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  NgZone,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { OverviewService } from './services/overview.service';
-import { catchError, map, max, of, startWith, switchMap, tap } from 'rxjs';
 import { RouterLink } from '@angular/router';
+import { catchError, map, max, of, startWith, switchMap, tap } from 'rxjs';
+import { ChartModule } from '../chart.module';
+import { ExpenseInterface } from '../expense/modal/expense.model';
 import {
   NotificationType,
   ToastService,
 } from '../shared/services/toast.service';
-import { ChartModule } from '../chart.module';
-import { ExpenseInterface } from '../expense/modal/expense.model';
+import { OverviewService } from './services/overview.service';
 
 @Component({
   selector: 'app-overview',
