@@ -17,6 +17,7 @@
                   aria-describedby="Subscription name"
                   placeholder="Monthly Salary"
                   formControlName="name"
+                  [maxlength]="30"
                 />
                 <div
                   class="invalid-feedback d-block"
@@ -36,6 +37,7 @@
                     aria-describedby="Total Amount of the Income"
                     placeholder="10000"
                     formControlName="amount"
+                    [max]="'1999999999'"
                   />
                   <div
                     class="invalid-feedback d-block"
@@ -69,6 +71,7 @@
                   id="received-date"
                   aria-describedby="Date of the transaction"
                   formControlName="receivedDate"
+                  [max]="maxDate"
                 />
                 <div
                   class="invalid-feedback d-block"

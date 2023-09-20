@@ -22,6 +22,8 @@ import {
 export class SubscriptionFormComponent {
   #fb = inject(FormBuilder);
 
+  maxDate = new Date().toISOString().split('T')[0];
+
   @Output()
   formSubmit = new EventEmitter<SubscriptionInterface>();
 

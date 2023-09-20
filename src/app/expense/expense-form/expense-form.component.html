@@ -17,6 +17,7 @@
                   aria-describedby="Expense name"
                   placeholder="Burger King - Burgers"
                   formControlName="name"
+                  [maxlength]="30"
                 />
                 <div
                   class="invalid-feedback d-block"
@@ -36,6 +37,7 @@
                     aria-describedby="Total cost of Expense"
                     placeholder="228.34"
                     formControlName="price"
+                    [max]="'99999999'"
                   />
                   <div
                     class="invalid-feedback d-block"
@@ -65,6 +67,7 @@
                   id="spent-date"
                   aria-describedby="Date of the transaction"
                   formControlName="spentDate"
+                  [max]="maxDate"
                 />
                 <div
                   class="invalid-feedback d-block"

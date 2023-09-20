@@ -19,6 +19,8 @@ import { ExpenseInterface } from '../modal/expense.model';
 export class ExpenseFormComponent {
   #fb = inject(FormBuilder);
 
+  maxDate = new Date().toISOString().split('T')[0];
+
   @Output()
   formSubmit = new EventEmitter<ExpenseInterface>();
 

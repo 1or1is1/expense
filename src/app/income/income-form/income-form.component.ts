@@ -18,6 +18,8 @@ import { IncomeInterface } from '../modal/income.interface';
 export class IncomeFormComponent {
   #fb = inject(FormBuilder);
 
+  maxDate = new Date().toISOString().split('T')[0];
+
   @Output()
   formSubmit = new EventEmitter<IncomeInterface>();
 
