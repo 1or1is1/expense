@@ -42,7 +42,6 @@ export class AddSubscriptionComponent {
 
   loading = false;
   async onFormSubmit(formData: SubscriptionInterface) {
-    console.log(formData);
     this.loading = true;
     try {
       await this.subscriptionFormService.addSubscription(formData);
@@ -52,7 +51,6 @@ export class AddSubscriptionComponent {
       );
       this.router.navigate(['/subscriptions']);
     } catch (err) {
-      console.log(err);
       this.toastService.showNotification(
         NotificationType.ERROR,
         'Some error occurred!',

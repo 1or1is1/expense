@@ -42,7 +42,6 @@ export class AddIncomeComponent {
 
   loading = false;
   async onFormSubmit(formData: IncomeInterface) {
-    console.log(formData);
     this.loading = true;
     try {
       await this.incomeFormService.addIncome(formData);

@@ -8,28 +8,34 @@ import {
   deleteDoc,
   doc,
   docData,
+  orderBy,
   query,
+  where,
 } from '@angular/fire/firestore';
 import { ExpenseInterface } from '../modal/expense.model';
-import { catchError, of } from 'rxjs';
+import { catchError, map, of, tap } from 'rxjs';
 import {
   NotificationType,
   ToastService,
 } from 'src/app/shared/services/toast.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExpenseService {
-  #firestore = inject(Firestore);
+  private firestore = inject(Firestore);
+  private authService = inject(AuthService);
   toastService = inject(ToastService);
 
   getAllExpenses() {
     const data = query(
       collection(
-        this.#firestore,
+        this.firestore,
         'expenses',
       ) as CollectionReference<ExpenseInterface>,
+      where('uid', '==', this.authService.currAuth.currentUser?.uid),
+      orderBy('spentDate', 'desc'),
     );
     return collectionData<ExpenseInterface>(data, {
       idField: 'expenseId',
@@ -46,7 +52,7 @@ export class ExpenseService {
 
   deleteExpense(id: string | undefined) {
     if (id) {
-      const docRef = doc(this.#firestore, 'expenses', id);
+      const docRef = doc(this.firestore, 'expenses', id);
       return deleteDoc(docRef);
     }
     return new Promise((res, rej) => rej('Expense Id is not available'));
@@ -54,7 +60,7 @@ export class ExpenseService {
 
   getExpense(id: string | null) {
     const docRef = doc(
-      this.#firestore,
+      this.firestore,
       'expenses',
       id || '',
     ) as DocumentReference<ExpenseInterface>;

@@ -7,25 +7,28 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { ExpenseInterface } from '../modal/expense.model';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExpenseFormService {
-  #firestore = inject(Firestore);
-  #expensesCollection = collection(this.#firestore, 'expenses');
+  private firestore = inject(Firestore);
+  private expensesCollection = collection(this.firestore, 'expenses');
+  private auth = inject(AuthService);
 
   addExpense(expense: ExpenseInterface) {
     let updatedExpense = {
       ...expense,
       spentDate: new Date(expense.spentDate).getTime(),
+      uid: this.auth.currAuth.currentUser?.uid,
     };
-    return addDoc(this.#expensesCollection, updatedExpense);
+    return addDoc(this.expensesCollection, updatedExpense);
   }
 
   updateExpense(expense: ExpenseInterface) {
     if (expense.expenseId) {
-      const docRef = doc(this.#expensesCollection, expense.expenseId);
+      const docRef = doc(this.expensesCollection, expense.expenseId);
       const obj = { ...expense };
       delete obj['expenseId'];
       return updateDoc(docRef, obj);

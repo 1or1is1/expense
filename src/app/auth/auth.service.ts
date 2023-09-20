@@ -13,6 +13,10 @@ import {
 export class AuthService {
   private auth = inject(Auth);
 
+  get currAuth() {
+    return this.auth;
+  }
+
   signInWithGoogle() {
     let currentUser = this.auth.currentUser;
     const googleProvider = new GoogleAuthProvider();

@@ -2,8 +2,10 @@ import { Injectable, inject } from '@angular/core';
 import {
   CollectionReference,
   Firestore,
+  and,
   collection,
   collectionData,
+  orderBy,
   query,
   where,
 } from '@angular/fire/firestore';
@@ -12,25 +14,27 @@ import { ExpenseInterface } from 'src/app/expense/modal/expense.model';
 import { IncomeInterface } from 'src/app/income/modal/income.interface';
 import { SubscriptionInterface } from 'src/app/subscriptions/modal/subscription.interface';
 import { ReportType } from '../overview.component';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OverviewService {
-  #firestore = inject(Firestore);
+  private firestore = inject(Firestore);
+  private authService = inject(AuthService);
 
   private readonly expenseCollection = collection(
-    this.#firestore,
+    this.firestore,
     'expenses',
   ) as CollectionReference<ExpenseInterface>;
 
   private readonly incomeCollection = collection(
-    this.#firestore,
+    this.firestore,
     'incomes',
   ) as CollectionReference<IncomeInterface>;
 
   private readonly subscriptionCollection = collection(
-    this.#firestore,
+    this.firestore,
     'subscriptions',
   ) as CollectionReference<SubscriptionInterface>;
 
@@ -65,15 +69,27 @@ export class OverviewService {
     }
     let expenseQuery = query(
       this.expenseCollection,
-      where('spentDate', '>=', date),
+      and(
+        where('uid', '==', this.authService.currAuth.currentUser?.uid),
+        where('spentDate', '>=', date),
+      ),
+      orderBy('spentDate', 'desc'),
     );
     let incomeQuery = query(
       this.incomeCollection,
-      where('receivedDate', '>=', date),
+      and(
+        where('uid', '==', this.authService.currAuth.currentUser?.uid),
+        where('receivedDate', '>=', date),
+      ),
+      orderBy('receivedDate', 'desc'),
     );
     let subscriptionQuery = query(
       this.subscriptionCollection,
-      where('boughtDate', '>=', date),
+      and(
+        where('uid', '==', this.authService.currAuth.currentUser?.uid),
+        where('boughtDate', '>=', date),
+      ),
+      orderBy('boughtDate', 'desc'),
     );
     return combineLatest<
       [ExpenseInterface[], IncomeInterface[], SubscriptionInterface[]]

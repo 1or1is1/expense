@@ -7,18 +7,21 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { IncomeInterface } from '../modal/income.interface';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IncomeFormService {
-  #firestore = inject(Firestore);
-  #incomeCollection = collection(this.#firestore, 'incomes');
+  private firestore = inject(Firestore);
+  private authService = inject(AuthService);
+  #incomeCollection = collection(this.firestore, 'incomes');
 
   addIncome(income: IncomeInterface) {
     let updatedIncome = {
       ...income,
       receivedDate: new Date(income.receivedDate).getTime(),
+      uid: this.authService.currAuth.currentUser?.uid,
     };
     return addDoc(this.#incomeCollection, updatedIncome);
   }

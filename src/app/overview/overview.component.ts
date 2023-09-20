@@ -51,8 +51,6 @@ export class OverviewComponent {
     switchMap((data) => this.onSelectionChange(data)),
   );
 
-  ngOnInit() {}
-
   onSelectionChange(report: ReportType) {
     return this.overviewService.getReport(report).pipe(
       tap((data) => {
@@ -74,7 +72,8 @@ export class OverviewComponent {
         };
         return this.reportDetails;
       }),
-      catchError(() => {
+      catchError((err) => {
+        console.log(err);
         this.toastService.showNotification(
           NotificationType.ERROR,
           'Some error occurred while fetching data',

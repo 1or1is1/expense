@@ -7,18 +7,21 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { SubscriptionInterface } from '../modal/subscription.interface';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SubscriptionFormService {
-  #firestore = inject(Firestore);
-  #subscriptionCollection = collection(this.#firestore, 'subscriptions');
+  private firestore = inject(Firestore);
+  private authService = inject(AuthService);
+  #subscriptionCollection = collection(this.firestore, 'subscriptions');
 
   addSubscription(subscription: SubscriptionInterface) {
     let updatedSubs = {
       ...subscription,
       boughtDate: new Date(subscription.boughtDate).getTime(),
+      uid: this.authService.currAuth.currentUser?.uid,
     };
     return addDoc(this.#subscriptionCollection, updatedSubs);
   }
