@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "expenses-1200": {
+      "hosting": {
+        "expense": [
+          "expenses-1200"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "expenses-1200"
+  }
+}

@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<!-- TRIED FOR A PROGRESS BAR ON NAVIGATION CHANGE, BUT SOMEHOW IT IS NOT WORKING -->
+<!-- ITS WORKING NOW, but not needed!! -->
 <!-- <div
   class="progress rounded-0 w-100 position-fixed top-0 start-0"
   role="progressbar"
@@ -7,6 +7,7 @@
   aria-valuemax="100"
   [style.height.px]="5"
   [style.z-index]="1021"
+  *ngIf="showLoading$ | async"
 >
   <div
     class="progress-bar progress-bar-striped progress-bar-animated"

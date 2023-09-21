@@ -35,13 +35,20 @@ import { AuthService } from './auth.service';
               </p>
             </div>
             <div class="card-body">
-              <fieldset [disabled]="loading">
+              <fieldset [disabled]="loadingAnon || loadingGoogle">
                 <div class="text-center mb-3 ">
                   <button
                     class="btn btn-outline-primary btn-lg btn-block align-self-center"
                     (click)="signInWithGoogle()"
                   >
-                    <i class="ri-google-fill"></i> Sign In with Google
+                    <i class="ri-google-fill"></i> Sign In with Google&nbsp;
+                    <div
+                      class="spinner-border spinner-border-sm"
+                      role="status"
+                      *ngIf="loadingGoogle"
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
                   </button>
                 </div>
                 <div class="text-center">
@@ -49,7 +56,14 @@ import { AuthService } from './auth.service';
                     class="btn btn-outline-secondary btn-lg btn-block align-self-center text-dark"
                     (click)="signInAnonymously()"
                   >
-                    <i class="ri-user-3-fill"></i> Anonymous Sign In
+                    <i class="ri-user-3-fill"></i> Anonymous Sign In&nbsp;
+                    <div
+                      class="spinner-border spinner-border-sm"
+                      role="status"
+                      *ngIf="loadingAnon"
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
                   </button>
                 </div>
               </fieldset>
@@ -65,10 +79,12 @@ export class AuthComponent {
   private toastService = inject(ToastService);
   private router = inject(Router);
   readonly user: Observable<User | null> = user(inject(Auth));
-  loading = false;
+  loadingGoogle = false;
+  loadingAnon = false;
 
   async signInWithGoogle() {
     try {
+      this.loadingGoogle = true;
       await this.authService.signInWithGoogle();
       this.toastService.showNotification(
         NotificationType.SUCCESS,
@@ -80,12 +96,14 @@ export class AuthComponent {
         NotificationType.ERROR,
         'Some error occurred, try again later!',
       );
+    } finally {
+      this.loadingGoogle = false;
     }
   }
 
   async signInAnonymously() {
     try {
-      this.loading = true;
+      this.loadingAnon = true;
       await this.authService.signInAnonymously();
       this.toastService.showNotification(
         NotificationType.SUCCESS,
@@ -98,7 +116,7 @@ export class AuthComponent {
         'Some error occurred, try again later!',
       );
     } finally {
-      this.loading = false;
+      this.loadingAnon = false;
     }
   }
 }

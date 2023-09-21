@@ -23,9 +23,29 @@ export class AppComponent {
   private toastService = inject(ToastService);
   user$ = user(this.auth);
 
+  /*  
+  private router = inject(Router);
+  showLoading$ = new BehaviorSubject<boolean>(false);
+
+  ngOnInit() {
+    this.router.events.subscribe({
+      next: (event) => {
+        if (event instanceof NavigationStart) {
+          this.showLoading$.next(true);
+        } else if (
+          event instanceof NavigationEnd ||
+          event instanceof NavigationError ||
+          event instanceof NavigationCancel
+        ) {
+          this.showLoading$.next(false);
+        }
+      },
+    });
+  } */
+
   async signInWithGoogle() {
     try {
-      let data = await this.authService.signInWithGoogle();
+      await this.authService.signInWithGoogle();
       this.toastService.showNotification(
         NotificationType.SUCCESS,
         'Account upgraded Successfully!',
