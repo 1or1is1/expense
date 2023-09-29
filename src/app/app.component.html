@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <!-- ITS WORKING NOW, but not needed!! -->
-<!-- <div
+<div
   class="progress rounded-0 w-100 position-fixed top-0 start-0"
   role="progressbar"
   aria-valuemin="0"
@@ -13,7 +13,7 @@
     class="progress-bar progress-bar-striped progress-bar-animated"
     style="width: 100%"
   ></div>
-</div> -->
+</div>
 <ng-container *ngIf="user$ | async as user; else unauthorized">
   <div
     class="position-fixed bottom-0 d-block w-100 text-center text-bg-warning z-3"

@@ -1,6 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+  RouterOutlet,
+} from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import {
   NotificationType,
@@ -9,6 +16,7 @@ import {
 } from './shared/services/toast.service';
 import { Auth, user } from '@angular/fire/auth';
 import { AuthService } from './auth/auth.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -21,10 +29,9 @@ export class AppComponent {
   private auth = inject(Auth);
   private authService = inject(AuthService);
   private toastService = inject(ToastService);
-  user$ = user(this.auth);
-
-  /*  
   private router = inject(Router);
+
+  user$ = user(this.auth);
   showLoading$ = new BehaviorSubject<boolean>(false);
 
   ngOnInit() {
@@ -41,7 +48,7 @@ export class AppComponent {
         }
       },
     });
-  } */
+  }
 
   async signInWithGoogle() {
     try {

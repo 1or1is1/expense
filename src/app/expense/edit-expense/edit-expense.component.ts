@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ExpenseFormComponent } from '../expense-form/expense-form.component';
 import { ExpenseInterface } from '../modal/expense.model';
@@ -43,28 +37,18 @@ import {
     </app-expense-form>
   `,
 })
-export class EditExpenseComponent implements AfterViewInit, OnInit {
-  #activatedRoute = inject(ActivatedRoute);
-  #router = inject(Router);
+export class EditExpenseComponent implements AfterViewInit {
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
   expenseFormService = inject(ExpenseFormService);
   toastService = inject(ToastService);
 
   loading = false;
-  expense: ExpenseInterface | undefined;
+  expense: ExpenseInterface | undefined =
+    this.activatedRoute.snapshot.data['expense'];
 
   @ViewChild(ExpenseFormComponent)
   expenseFormComponent!: ExpenseFormComponent;
-
-  ngOnInit(): void {
-    this.expense = this.#activatedRoute.snapshot.data['expense'];
-    if (!this.expense) {
-      this.toastService.showNotification(
-        NotificationType.ERROR,
-        'Some error occurred while fetching expense details!',
-      );
-      this.#router.navigate(['/expenses']);
-    }
-  }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -89,7 +73,7 @@ export class EditExpenseComponent implements AfterViewInit, OnInit {
         NotificationType.SUCCESS,
         'Expense updated successfully',
       );
-      this.#router.navigate(['/expenses']);
+      this.router.navigate(['/expenses']);
     } catch (err) {
       console.log(err);
       this.toastService.showNotification(
