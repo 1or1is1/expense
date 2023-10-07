@@ -21,7 +21,7 @@
     You are signed in as
     {{ user?.isAnonymous ? "Anonymous, Sign in with " : user?.email }}
     <button
-      class="btn-link py-0 btn ps-1"
+      class="btn-link py-0 btn ps-1 text-primary"
       *ngIf="user?.isAnonymous"
       (click)="signInWithGoogle()"
     >

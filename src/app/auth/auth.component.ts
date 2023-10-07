@@ -53,7 +53,7 @@ import { AuthService } from './auth.service';
                 </div>
                 <div class="text-center">
                   <button
-                    class="btn btn-outline-secondary btn-lg btn-block align-self-center text-dark"
+                    class="btn btn-outline-secondary btn-lg btn-block align-self-center text-primary"
                     (click)="signInAnonymously()"
                   >
                     <i class="ri-user-3-fill"></i> Anonymous Sign In&nbsp;

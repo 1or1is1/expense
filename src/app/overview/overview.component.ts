@@ -27,6 +27,7 @@ export class OverviewComponent {
   expenseChartInstance: any;
 
   chartOptions: AnyObject = {
+    theme: 'dark1',
     title: {
       text: 'Expenses',
     },
@@ -39,7 +40,7 @@ export class OverviewComponent {
       labelWrap: true,
     },
     animationEnabled: true,
-    backgroundColor: '#d1dfeb',
+    // backgroundColor: '#d1dfeb',
     data: [],
   };
 
